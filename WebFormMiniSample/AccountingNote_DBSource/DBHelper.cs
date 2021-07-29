@@ -36,5 +36,29 @@ namespace AccountingNote_DBSource
                 }
             }
         }
+
+        public static DataRow ReadDataRow(string connStr, string dbcommand, List<SqlParameter> list)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                using (SqlCommand comm = new SqlCommand(dbcommand, conn))
+                {
+                    comm.Parameters.AddRange(list.ToArray());
+
+                    
+                        conn.Open();
+                        var reader = comm.ExecuteReader();
+
+                        DataTable dt = new DataTable();
+                        dt.Load(reader);
+
+                        if (dt.Rows.Count == 0)
+                            return null;
+                        return dt.Rows[0];
+
+                    
+                }
+            }
+        }
     }
 }

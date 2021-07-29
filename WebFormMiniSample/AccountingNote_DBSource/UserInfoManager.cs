@@ -20,34 +20,47 @@ namespace AccountingNote_DBSource
                 WHERE [Account]  = @account
                 ";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@account", account));
+
+            try
             {
-                using (SqlCommand command = new SqlCommand(dbCommandString, connection))
-                {
-
-                    command.Parameters.AddWithValue("@account", account);
-
-                    try
-                    {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-                        reader.Close();
-
-                        if (dt.Rows.Count == 0)
-                            return null;
-                        DataRow dr = dt.Rows[0];
-                        return dr;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                        return null;//改回傳值
-                    }
-                }
+                return DBHelper.ReadDataRow(connectionString, dbCommandString, list);
             }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return null;
+            }
+
+            //using (SqlConnection connection = new SqlConnection(connectionString))
+            //{
+            //    using (SqlCommand command = new SqlCommand(dbCommandString, connection))
+            //    {
+
+            //        command.Parameters.AddRange(list.ToArray());
+
+            //        try
+            //        {
+            //            connection.Open();
+            //            SqlDataReader reader = command.ExecuteReader();
+
+            //            DataTable dt = new DataTable();
+            //            dt.Load(reader);
+            //            reader.Close();
+
+            //            if (dt.Rows.Count == 0)
+            //                return null;
+            //            DataRow dr = dt.Rows[0];
+            //            return dr;
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Logger.Writelog(ex);
+            //            return null;//改回傳值
+            //        }
+            //    }
+            //}
         }
         
     }
