@@ -11,13 +11,6 @@ namespace AccountingNote_DBSource
 {
     public class UserInfoManager
     {
-
-        //private static string GetConnectionString()
-        //{
-        //    //string val = ConfigurationManager.AppSettings["ConnectionString"];
-        //    string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //    return val;
-        //}
         public static DataRow GetUserInfoByAccount(string account)
         {
             string connectionString = DBHelper.GetConnectionString();

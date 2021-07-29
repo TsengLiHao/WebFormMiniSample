@@ -11,12 +11,6 @@ namespace AccountingNote_DBSource
 {
     public class AccountingManager
     {
-        //private static string GetConnectionString()
-        //{
-        //    string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //    return val;
-        //}
-
         public static DataTable GetAccountingList(string userID)
         {
             string connStr = DBHelper.GetConnectionString();
