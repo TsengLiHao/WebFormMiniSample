@@ -24,30 +24,17 @@ namespace AccountingNote_DBSource
                    FROM Accounting
                    WHERE userID = @userID
                 ";
-
-            using(SqlConnection conn = new SqlConnection(connStr))
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@userID", userID));
+            //comm.Parameters.AddWithValue("@userID", userID);
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbcommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@userID", userID);
-
-                    try
-                    {
-                        conn.Open();
-                        var reader = comm.ExecuteReader();
-
-                        DataTable dt = new DataTable();
-                        dt.Load(reader);
-
-                        return dt;
-
-                    }
-                    catch(Exception ex)
-                    {
-                        Logger.Writelog(ex);
-                        return null;
-                    }
-                }
+                return DBHelper.ReadDataTable(connStr, dbcommand, list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writelog(ex);
+                return null;
             }
         }
 
